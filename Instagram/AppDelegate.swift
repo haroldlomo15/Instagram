@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Parse
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +17,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        
+        Parse.initialize(
+            with: ParseClientConfiguration(block: { (configuration: ParseMutableClientConfiguration) -> Void in
+                configuration.applicationId = "instagram"
+                configuration.clientKey = "haroldlomo15"  // set to nil assuming you have not set clientKey
+                configuration.server = "http://instagramcodepath123.herokuapp.com/parse"
+            })
+        )
+        
+        login()
+       
+        
+        
         return true
     }
 
@@ -40,6 +55,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
+
+    func login() {
+        if PFUser.current() != nil {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let naviVC = storyboard.instantiateViewController(withIdentifier: "homeVC") as! UITabBarController
+            
+            window?.rootViewController = naviVC
+        } else {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let loginVC = storyboard.instantiateViewController(withIdentifier: "logInVC") as UIViewController
+            
+            window?.rootViewController = loginVC
+            
+        }
+    }
+
+
 
 
 }
